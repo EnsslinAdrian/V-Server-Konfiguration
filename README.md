@@ -1,82 +1,117 @@
-### V-Server sicher verbinden
+# 🔐 Secure V-Server Setup
 
-## Lokalen SSH‑Schlüssel erstellen
+This guide explains how to securely set up a V-Server — including SSH key authentication, user management, disabling password logins, and configuring an Nginx web server.  
+Ideal for beginners and for anyone who needs to repeatedly configure servers securely.
+
+
+## Features
+- Create SSH key & disable password login
+- Create user with sudo privileges
+- Install Nginx & host custom HTML page
+- Alias commands for quick access
+
+## 📚 Table of Contents
+- [Features](#features)
+- [Establish SSH Connection](#establish-ssh-connection)
+- [Web Server (Nginx)](#open-web-server-in-browser-nginx)
+- [Create Aliases](#create-alias-shortcuts-on-linux)
+- [Connect V-Server with GitHub](#connect-v-server-with-github)
+
+<br>  
+
+## Establish SSH Connection
+
+### 1. Create Local SSH Key
 ```bash
 ssh-keygen -t ed25519 
 ```
 
-## Mit V-Server Verbinden
+### 2. Connect to V-Server
 ```bash
 ssh root@82.165.219.147
 ```
 
-## Neuen Benutzer erstellen
+
+### 3. Create New User
 ```bash
-adduser name
-usermod -aG sudo name
-mkdir -p /home/name/.ssh
-chmod 700 /home/name/.ssh
-chown -R name:name /home/name/.ssh
+adduser username
+usermod -aG sudo username
+mkdir -p /home/username/.ssh
+chmod 700 /home/username/.ssh
+chown -R username:username /home/username/.ssh
 ```
 
-## Localen SSH Key auf den V-Server kopieren unter Windows 
+### 4. Copy Local SSH Key to V-Server on Windows 
 ```bash
-type C:\Users\name\.ssh\developerAkademie\id_ed25519.pub | ssh name@168.119.232.167 "cat >> .ssh/authorized_keys"
+type C:\Users\username\.ssh\developerAkademie\id_ed25519.pub | ssh username@168.119.232.167 "cat >> .ssh authorized_keys"
 ```
 
-## Mit SSH Key auf den Server Verbinden
+> 💡 Copy Local SSH Key to V-Server on Linux  
 ```bash
-ssh -i C:\Users\name\.ssh\developerAkademie\id_ed25519 name@168.119.232.167
+ssh-copy-id -i ~/.ssh/id_ed25519.pub username@SERVER-IP
 ```
 
-## Datei berechtigung nur auf Benutzer setzen
+### 5. Connect to Server with SSH Key
 ```bash
-sudo chown name:name /home/name/.ssh/authorized_keys
-sudo chmod 600 /home/name/.ssh/authorized_keys
-sudo chmod 700 /home/name/.ssh
+ssh -i C:\Users\username\.ssh\developerAkademie\id_ed25519 username@168.119.232.167
 ```
 
-## V-Server Passwort Verbunding deaktivieren nur noch per Shh
+### 6. Set File Permissions to User Only
+```bash
+sudo chown username:username /home/username/.ssh/authorized_keys
+sudo chmod 600 /home/username/.ssh/authorized_keys
+sudo chmod 700 /home/username/.ssh
+```
+
+### 7. Disable V-Server Password Connection - SSH Only
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
-# PasswordAuthentication yes zu no und entkommentieren
 
+![Alt-Text](./img/sshd_config.png)
+
+> 💡 Change PasswordAuthentication yes to no and uncomment
+
+
+### 8. Restart SSH Service
 ```bash
 sudo systemctl restart ssh.service
 ```
-# Shh System neu Starten
 
-### Webserver im Webrowser öffnen Nginx
+<br>
+<br>
 
-## Server einaml Updaten
+
+## Open Web Server in Browser Nginx
+
+### 1. Update Server
 ```bash
 sudo apt update
 ```
 
-## Nginx installieren
+### 2. Install Nginx
 ```bash
 sudo apt install nginx -y
 ```
 
-## Überprüfen ob alles funktioniet
+### 3. Check if Everything Works
 ```bash
 systemctl status nginx
 ```
 
-## Ip aufrufen und in Suchleiste eingeben
+### 4. Get IP Address and Enter in Browser
 ```bash
 ifconfig
 ```
-> eth0 inte 168.119.232.16 ist die Ip Adresse
+>💡 eth0 inet 168.119.232.16 is the IP address
 
-## Eigene Html seite anzeigen
+### 5. Display Custom HTML Page
 ```bash
 sudo mkdir /var/www/alternatives/
 sudo touch /var/www/alternatives/alternate-index.html
 sudo nano /etc/nginx/sites-enabled/alternatives
 ```
-> Nginx konfigurieren für neue Html seite
+>  💡Configure Nginx for new HTML page
 
 ```js
     server {
@@ -92,31 +127,52 @@ sudo nano /etc/nginx/sites-enabled/alternatives
     }
 ```
 
-## Nginx nach änderung neu Starten
+### 6. Restart Nginx After Changes
 ```bash
 sudo service nginx restart
 ```
 
-### Alias abkürzungen erstellen unter Linux/Ubunto
+<br><br>
 
-## Neuen Alias erstellen 
-> cd //home/name
+## Create Alias Shortcuts on Linux
+
+### 1. Create New Alias 
+> 💡Navigate to the correct directory -- cd /home/username
 ```bash
 sudo nano .bashrc
 ```
-> unten neuen alias definieren
 
+### 2. Define New Alias
 ```bash
 alias dal_connect='ssh -i ~/.ssh/id_ed25519 name@168.119.232.167'
 ```
-> dal_connect steht hier für den abkürzenden Namen
+> 💡 dal_connect is the abbreviated name here
 
-## .bashrc Datei neu laden
+![Alt-Text](./img/bashrc.png)
+
+
+### 3. Reload .bashrc File
 ```bash
 . ~/.bashrc
 ```
 
-## Alias benutzen
+### 4. Use Alias
 ```bash
-dal_connetc
+dal_connect
 ```
+
+## Connect V-Server with GitHub 
+
+### 1. Copy Public SSH Key 
+> 💡 Path -- /home/username/.ssh
+```bash
+cat id_ed25519.pub
+```
+
+### 2. GitHub 
+1. Settings
+2. SSH and GPG keys
+3. New SSH key
+
+![Alt-Text](./img/ssh-github.png)
+
