@@ -28,7 +28,7 @@ ssh-keygen -t ed25519
 
 ### 2. Connect to V-Server
 ```bash
-ssh root@82.165.219.147
+ssh root@SERVER-IP
 ```
 
 
@@ -43,7 +43,7 @@ chown -R username:username /home/username/.ssh
 
 ### 4. Copy Local SSH Key to V-Server on Windows 
 ```bash
-type C:\Users\username\.ssh\developerAkademie\id_ed25519.pub | ssh username@168.119.232.167 "cat >> .ssh authorized_keys"
+type C:\Users\username\.ssh\developerAkademie\id_ed25519.pub | ssh username@SERVER-IP "cat >> .ssh authorized_keys"
 ```
 
 > 💡 Copy Local SSH Key to V-Server on Linux  
@@ -53,7 +53,7 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub username@SERVER-IP
 
 ### 5. Connect to Server with SSH Key
 ```bash
-ssh -i C:\Users\username\.ssh\developerAkademie\id_ed25519 username@168.119.232.167
+ssh -i C:\Users\username\.ssh\developerAkademie\id_ed25519 username@SERVER-IP
 ```
 
 ### 6. Set File Permissions to User Only
@@ -103,7 +103,7 @@ systemctl status nginx
 ```bash
 ifconfig
 ```
->💡 eth0 inet 168.119.232.16 is the IP address
+>💡 eth0 inet SERVER-IP is the IP address
 
 ### 5. Display Custom HTML Page
 ```bash
@@ -144,7 +144,7 @@ sudo nano .bashrc
 
 ### 2. Define New Alias
 ```bash
-alias dal_connect='ssh -i ~/.ssh/id_ed25519 name@168.119.232.167'
+alias dal_connect='ssh -i ~/.ssh/id_ed25519 username@SERVER-IP'
 ```
 > 💡 dal_connect is the abbreviated name here
 
