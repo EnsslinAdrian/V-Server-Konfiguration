@@ -176,3 +176,7 @@ cat id_ed25519.pub
 
 ![Alt-Text](./img/ssh-github.png)
 
+## 👤 Author
+
+**Adrian Enßlin**
+
